@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjectionKata", "DependencyInjectionKata\DependencyInjectionKata.csproj", "{770DC4FD-1115-43B7-B706-C9387D055FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjectionKataTests", "DependencyInjectionKataTests\DependencyInjectionKataTests.csproj", "{976AAFF3-803F-4AEF-802D-FCCBD45C5503}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{770DC4FD-1115-43B7-B706-C9387D055FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{770DC4FD-1115-43B7-B706-C9387D055FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{770DC4FD-1115-43B7-B706-C9387D055FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{770DC4FD-1115-43B7-B706-C9387D055FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976AAFF3-803F-4AEF-802D-FCCBD45C5503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976AAFF3-803F-4AEF-802D-FCCBD45C5503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976AAFF3-803F-4AEF-802D-FCCBD45C5503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976AAFF3-803F-4AEF-802D-FCCBD45C5503}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
