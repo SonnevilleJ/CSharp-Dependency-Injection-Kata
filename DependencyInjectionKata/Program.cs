@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using Ninject;
 
 namespace DependencyInjectionKata
 {
@@ -6,13 +7,19 @@ namespace DependencyInjectionKata
     {
         public static void Main(string[] args)
         {
-            if (args.Length == 1 && args[0] == "generate")
+            using (var kernel = new StandardKernel())
             {
-                Console.WriteLine($"The new key is {new Generator(new RandomWrapper()).GenerateKey()}");
-            }
-            else
-            {
-                Console.WriteLine("OK, I won't generate a key");
+                kernel.Bind<IRandom>().To<RandomWrapper>();
+                var generator = kernel.Get<Generator>();
+
+                if (args.Length == 1 && args[0] == "generate")
+                {
+                    Console.WriteLine($"The new key is {generator.GenerateKey()}");
+                }
+                else
+                {
+                    Console.WriteLine("OK, I won't generate a key");
+                }
             }
         }
     }

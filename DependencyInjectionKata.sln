@@ -7,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercises", "Exercises", "{88716DE2-58B0-4C06-BC84-490B03EEBDDD}"
 ProjectSection(SolutionItems) = preProject
 	Exercises\Exercise 1.md = Exercises\Exercise 1.md
+	Exercises\Exercise 2.md = Exercises\Exercise 2.md
 EndProjectSection
 EndProject
 Global
