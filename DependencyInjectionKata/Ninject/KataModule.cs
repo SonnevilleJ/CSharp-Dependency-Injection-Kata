@@ -7,6 +7,7 @@ namespace DependencyInjectionKata.Ninject
         public override void Load()
         {
             Bind<IRandom>().To<RandomWrapper>();
+            Bind<IApp>().To<App>();
         }
     }
 }

@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace DependencyInjectionKataTests
 {
     [TestFixture]
-    public class ProgramTests
+    public class AppTests
     {
         private StreamReader _inputReader;
         private StreamWriter _inputWriter;
@@ -42,13 +42,13 @@ namespace DependencyInjectionKataTests
         [Test]
         public void ShouldRunWithoutException()
         {
-            Program.Main(_generateArgs);
+            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
         }
 
         [Test]
         public void ShouldReturnNonEmptyString()
         {
-            Program.Main(_generateArgs);
+            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
 
             Assert.IsFalse(string.IsNullOrWhiteSpace(ReadAllOutput()));
         }
@@ -56,7 +56,7 @@ namespace DependencyInjectionKataTests
         [Test]
         public void ShouldReturn25CharacterString()
         {
-            Program.Main(_generateArgs);
+            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
 
             Assert.AreEqual(41, ReadAllOutput().Length);
         }
@@ -64,10 +64,10 @@ namespace DependencyInjectionKataTests
         [Test]
         public void ShouldReturnUniqueResult()
         {
-            Program.Main(_generateArgs);
+            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
             var result1 = ReadAllOutput();
 
-            Program.Main(_generateArgs);
+            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
             var result2 = ReadAllOutput();
 
             Assert.AreNotEqual(result1, result2);
@@ -76,7 +76,7 @@ namespace DependencyInjectionKataTests
         [Test]
         public void ShouldReturnMessageWhenNotGenerating()
         {
-            Program.Main(new string[] { });
+            new App(new Generator(new RandomWrapper())).Run(new string[] { });
             
             Assert.AreEqual($"OK, I won\'t generate a key{Environment.NewLine}", ReadAllOutput());
         }
