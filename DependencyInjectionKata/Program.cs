@@ -1,4 +1,5 @@
 using System;
+using DependencyInjectionKata.Ninject;
 using Ninject;
 
 namespace DependencyInjectionKata
@@ -7,9 +8,8 @@ namespace DependencyInjectionKata
     {
         public static void Main(string[] args)
         {
-            using (var kernel = new StandardKernel())
+            using (var kernel = new StandardKernel(new KataModule()))
             {
-                kernel.Bind<IRandom>().To<RandomWrapper>();
                 var generator = kernel.Get<Generator>();
 
                 if (args.Length == 1 && args[0] == "generate")
