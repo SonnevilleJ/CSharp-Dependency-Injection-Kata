@@ -11,7 +11,7 @@ namespace DependencyInjectionKataTests
         [SetUp]
         public void Setup()
         {
-            _generator = new Generator();
+            _generator = new Generator(new RandomWrapper());
         }
 
         [Test]

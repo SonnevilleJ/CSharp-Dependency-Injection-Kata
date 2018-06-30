@@ -8,7 +8,7 @@ namespace DependencyInjectionKata
         {
             if (args.Length == 1 && args[0] == "generate")
             {
-                Console.WriteLine($"The new key is {new Generator().GenerateKey()}");
+                Console.WriteLine($"The new key is {new Generator(new RandomWrapper()).GenerateKey()}");
             }
             else
             {
