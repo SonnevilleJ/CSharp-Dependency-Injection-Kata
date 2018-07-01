@@ -1,4 +1,6 @@
-﻿using Ninject.Modules;
+﻿using System;
+using System.IO;
+using Ninject.Modules;
 
 namespace DependencyInjectionKata.Ninject
 {
@@ -7,7 +9,9 @@ namespace DependencyInjectionKata.Ninject
         public override void Load()
         {
             Bind<IRandom>().To<RandomWrapper>();
+            Bind<IGenerator>().To<Generator>();
             Bind<IApp>().To<App>();
+            Bind<TextWriter>().ToConstant(Console.Out).WhenInjectedExactlyInto<App>();
         }
     }
 }

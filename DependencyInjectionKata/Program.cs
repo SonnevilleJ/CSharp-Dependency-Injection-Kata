@@ -5,11 +5,13 @@ namespace DependencyInjectionKata
 {
     public class Program
     {
+        public static readonly StandardKernel Kernel = new StandardKernel(new KataModule());
+
         public static void Main(string[] args)
         {
-            using (var kernel = new StandardKernel(new KataModule()))
+            using (Kernel)
             {
-                kernel.Get<IApp>().Run(args);
+                Kernel.Get<IApp>().Run(args);
             }
         }
     }
