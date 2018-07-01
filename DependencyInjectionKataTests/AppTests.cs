@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using DependencyInjectionKata;
+using Moq;
 using NUnit.Framework;
 
 namespace DependencyInjectionKataTests
@@ -12,13 +13,13 @@ namespace DependencyInjectionKataTests
         private StreamWriter _inputWriter;
         private StreamReader _outputReader;
         private StreamWriter _outputWriter;
-        private string[] _generateArgs;
+        private Mock<IGenerator> _mockGenerator;
+        private string _newKey;
+        private App _app;
 
         [SetUp]
         public void Setup()
         {
-            _generateArgs = new[] {"generate"};
-
             var inputStream = new MemoryStream();
             _inputReader = new StreamReader(inputStream);
             _inputWriter = new StreamWriter(inputStream) {AutoFlush = true};
@@ -28,6 +29,14 @@ namespace DependencyInjectionKataTests
             _outputReader = new StreamReader(outputStream);
             _outputWriter = new StreamWriter(outputStream) {AutoFlush = true};
             Console.SetOut(_outputWriter);
+
+            _newKey = "new key";
+
+            _mockGenerator = new Mock<IGenerator>();
+            _mockGenerator.Setup(generator => generator.GenerateKey())
+                .Returns(_newKey);
+
+            _app = new App(_mockGenerator.Object, _outputWriter);
         }
 
         [TearDown]
@@ -40,45 +49,30 @@ namespace DependencyInjectionKataTests
         }
 
         [Test]
-        public void ShouldRunWithoutException()
+        public void ShouldWriteNewKeyToConsole()
         {
-            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
+            _app.Run(new[] {"generate"});
+
+            Assert.AreEqual($"The new key is {_newKey}{Environment.NewLine}", ReadAllOutput());
         }
 
         [Test]
-        public void ShouldReturnNonEmptyString()
+        public void ShouldNotGenerateKey()
         {
-            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
+            _app.Run(new string[] { });
 
-            Assert.IsFalse(string.IsNullOrWhiteSpace(ReadAllOutput()));
+            Assert.AreEqual($"OK, I won't generate a key{Environment.NewLine}", ReadAllOutput());
         }
 
         [Test]
-        public void ShouldReturn25CharacterString()
+        [TestCase("")]
+        [TestCase("hello")]
+        [TestCase("generate new key")]
+        public void ShouldIgnoreOtherInput(string input)
         {
-            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
+            _app.Run(input.Split(" "));
 
-            Assert.AreEqual(41, ReadAllOutput().Length);
-        }
-
-        [Test]
-        public void ShouldReturnUniqueResult()
-        {
-            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
-            var result1 = ReadAllOutput();
-
-            new App(new Generator(new RandomWrapper())).Run(_generateArgs);
-            var result2 = ReadAllOutput();
-
-            Assert.AreNotEqual(result1, result2);
-        }
-
-        [Test]
-        public void ShouldReturnMessageWhenNotGenerating()
-        {
-            new App(new Generator(new RandomWrapper())).Run(new string[] { });
-            
-            Assert.AreEqual($"OK, I won\'t generate a key{Environment.NewLine}", ReadAllOutput());
+            Assert.AreEqual($"OK, I won't generate a key{Environment.NewLine}", ReadAllOutput());
         }
 
         private string ReadAllOutput()

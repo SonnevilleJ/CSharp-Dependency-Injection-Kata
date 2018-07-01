@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 
 namespace DependencyInjectionKata
 {
@@ -9,22 +9,24 @@ namespace DependencyInjectionKata
 
     public class App : IApp
     {
-        private readonly Generator _generator;
+        private readonly IGenerator _generator;
+        private readonly TextWriter _outputWriter;
 
-        public App(Generator generator)
+        public App(IGenerator generator, TextWriter outputWriter)
         {
             _generator = generator;
+            _outputWriter = outputWriter;
         }
 
         public void Run(string[] args)
         {
             if (args.Length == 1 && args[0] == "generate")
             {
-                Console.WriteLine($"The new key is {_generator.GenerateKey()}");
+                _outputWriter.WriteLine($"The new key is {_generator.GenerateKey()}");
             }
             else
             {
-                Console.WriteLine("OK, I won't generate a key");
+                _outputWriter.WriteLine("OK, I won't generate a key");
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using DependencyInjectionKata;
+﻿using System.Threading;
+using DependencyInjectionKata;
+using Moq;
 using NUnit.Framework;
 
 namespace DependencyInjectionKataTests
@@ -6,30 +8,29 @@ namespace DependencyInjectionKataTests
     [TestFixture]
     public class GeneratorTests
     {
-        private Generator _generator;
-
-        [SetUp]
-        public void Setup()
-        {
-            _generator = new Generator(new RandomWrapper());
-        }
-
         [Test]
-        public void ShouldReturnNonEmptyString()
+        public void ShouldReturnBasedOnRandomInput()
         {
-            Assert.IsFalse(string.IsNullOrWhiteSpace(_generator.GenerateKey()));
-        }
+            // this test injects a mock IRandom to verify the behavior of the Generator class
+            
+            var i = 0;
+            var mockRandom = new Mock<IRandom>();
+            mockRandom.Setup(random => random.Next(62))
+                .Returns(() => Interlocked.Increment(ref i));
 
-        [Test]
-        public void ShouldReturn25CharacterString()
-        {
-            Assert.AreEqual(25, _generator.GenerateKey().Length);
+            var key = new Generator(mockRandom.Object).GenerateKey();
+
+            Assert.AreEqual("BCDEFGHIJKLMNOPQRSTUVWXYZ", key);
         }
 
         [Test]
         public void ShouldReturnUniqueResult()
         {
-            Assert.AreNotEqual(_generator.GenerateKey(), _generator.GenerateKey());
+            // this test injects a RandomWrapper, just like production
+            
+            var generator = new Generator(new RandomWrapper());
+
+            Assert.AreNotEqual(generator.GenerateKey(), generator.GenerateKey());
         }
     }
 }

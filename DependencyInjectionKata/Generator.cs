@@ -2,7 +2,12 @@
 
 namespace DependencyInjectionKata
 {
-    public class Generator
+    public interface IGenerator
+    {
+        string GenerateKey();
+    }
+
+    public class Generator : IGenerator
     {
         private readonly IRandom _random;
 
